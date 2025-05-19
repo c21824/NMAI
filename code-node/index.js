@@ -77,7 +77,6 @@ app.post('/upload', upload.single('image'), async (req, res, next) => {
     }
 });
 
-// Chuyển hex sang base64
 function hexToBase64(hexString) {
     const bytes = new Uint8Array(hexString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
     return Buffer.from(bytes).toString('base64');

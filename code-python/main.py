@@ -19,30 +19,26 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-yolo_LP_detect = torch.hub.load(r"F:/Deep_learning/DL-NangCao/yolov5", 'custom', path=r'F:/Deep_learning/DL-NangCao/license_plate/models/LP_detector.pt', force_reload=True, source=r'local', verbose=False)
-yolo_license_plate = torch.hub.load(r"F:/Deep_learning/DL-NangCao/yolov5", 'custom', path=r'F:/Deep_learning/DL-NangCao/license_plate/models/LP_ocr.pt', force_reload=True, source=r'local', verbose=False)
+yolo_LP_detect = torch.hub.load(r"F:/Deep_learning/DL-NangCao/yolov5", 'custom', path=r'F:/Deep_learning/DL-NangCao/nmai/model/LP_detector.pt', force_reload=True, source=r'local', verbose=False)
+yolo_license_plate = torch.hub.load(r"F:/Deep_learning/DL-NangCao/yolov5", 'custom', path=r'F:/Deep_learning/DL-NangCao/nmai/model/LP_ocr.pt', force_reload=True, source=r'local', verbose=False)
 yolo_license_plate.conf = 0.60
 
 @app.post("/detect")
 async def detect(file: UploadFile = File(...)):
-    # Đọc ảnh từ file upload
     image_bytes = await file.read()
     img = cv2.imdecode(np.frombuffer(image_bytes, np.uint8), cv2.IMREAD_COLOR)
     if img is None:
         return {"error": "Cannot decode image"}, 400
 
-    # Nhận diện biển số
     plates = yolo_LP_detect(img, size=640)
     list_plates = plates.pandas().xyxy[0].values.tolist()
     list_read_plates = set()
 
     if len(list_plates) == 0:
-        # Nếu không tìm thấy vùng biển số, thử đọc trực tiếp toàn ảnh
         lp = helper.read_plate(yolo_license_plate, img)
         if lp != "unknown":
             list_read_plates.add(lp)
     else:
-        # Nếu tìm thấy vùng biển số, crop và đọc ký tự
         for plate in list_plates:
             flag = 0
             x = int(plate[0])
@@ -62,18 +58,16 @@ async def detect(file: UploadFile = File(...)):
 
     license_plates = list(list_read_plates) if list_read_plates else ["unknown"]
 
-    # Vẽ bounding box lên ảnh
-    plates.render()  # Vẽ bounding box cho biển số
+    plates.render()  
     img_with_boxes = plates.ims[0]
     _, img_encoded = cv2.imencode('.jpg', img_with_boxes)
     img_bytes = io.BytesIO(img_encoded.tobytes())
-    # Trả về kết quả
     return {
         "results": {
             "filename": file.filename,
             "license_plates": license_plates
         },
-        "image_with_boxes": img_bytes.getvalue().hex()  # Ảnh với bounding box dạng hex
+        "image_with_boxes": img_bytes.getvalue().hex()  
     }
 
 if __name__ == "__main__":
