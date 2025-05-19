@@ -1,0 +1,12 @@
+.card {
+  border-radius: 10px;
+}
+
+.container {
+  max-width: 900px;
+}
+
+img.img-fluid {
+  max-height: 400px;
+  object-fit: contain;
+}
