@@ -19,8 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-yolo_LP_detect = torch.hub.load(r"F:/Deep_learning/DL-NangCao/yolov5", 'custom', path=r'F:/Deep_learning/DL-NangCao/nmai/model/LP_detector.pt', force_reload=True, source=r'local', verbose=False)
-yolo_license_plate = torch.hub.load(r"F:/Deep_learning/DL-NangCao/yolov5", 'custom', path=r'F:/Deep_learning/DL-NangCao/nmai/model/LP_ocr.pt', force_reload=True, source=r'local', verbose=False)
+yolo_LP_detect = torch.hub.load(r"D:/LPR/YOLO/yolov5", 'custom', path=r'D:/LPR/NMAI/model/LP_detector.pt', force_reload=True, source=r'local', verbose=False)
+yolo_license_plate = torch.hub.load(r"D:/LPR/YOLO/yolov5", 'custom', path=r'D:/LPR/NMAI/model/LP_ocr.pt', force_reload=True, source=r'local', verbose=False)
 yolo_license_plate.conf = 0.60
 
 @app.post("/detect")

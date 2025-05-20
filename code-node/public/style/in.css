@@ -1,12 +1,235 @@
-.card {
-  border-radius: 10px;
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary-color: #f8fafc;
+  --text-color: #1e293b;
+  --border-color: #e2e8f0;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --info-color: #0ea5e9;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f1f5f9;
+  color: var(--text-color);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1400px;
+  flex: 1;
+}
+
+.page-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 1rem 0;
+  border-radius: 0 0 1rem 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.page-header h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0;
+}
+
+.page-header p {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  height: 100%;
+}
+
+.card-header {
+  background-color: var(--secondary-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  padding: 0.6rem 1.5rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.form-control {
+  border-radius: 0.5rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--border-color);
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  border-color: var(--primary-color);
+}
+
+.form-label {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
 }
 
 img.img-fluid {
-  max-height: 400px;
+  max-height: 300px;
   object-fit: contain;
+  border-radius: 0.5rem;
+}
+
+.preview-container {
+  position: relative;
+  min-height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  border: 2px dashed var(--border-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.preview-container.has-image {
+  border: none;
+}
+
+.preview-placeholder {
+  color: #94a3b8;
+  text-align: center;
+}
+
+.result-container {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  height: 100%;
+}
+
+.result-container.show {
+  opacity: 1;
+}
+
+.license-plate-item {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: var(--secondary-color);
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.alert {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.alert-success {
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--success-color);
+}
+
+.alert-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: var(--danger-color);
+}
+
+.alert-warning {
+  background-color: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  color: var(--warning-color);
+}
+
+.alert-info {
+  background-color: rgba(14, 165, 233, 0.1);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  color: var(--info-color);
+}
+
+.upload-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.result-image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  max-height: 300px;
+  overflow: hidden;
+}
+
+.result-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  min-height: 200px;
+  color: #94a3b8;
+  text-align: center;
+  background-color: var(--secondary-color);
+  border-radius: 0.5rem;
+  padding: 2rem;
+}
+
+.result-placeholder i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  color: #cbd5e1;
+}
+
+.footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  color: #64748b;
+  padding: 0.75rem 0;
+  font-size: 0.875rem;
+  background-color: var(--secondary-color);
+}
+
+.main-content {
+  padding-bottom: 1.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .result-container {
+    margin-top: 1.5rem;
+    opacity: 1;
+  }
+
+  .page-header {
+    margin-bottom: 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
 }
