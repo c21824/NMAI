@@ -44,8 +44,8 @@ app.post("/upload", upload.single("image"), async (req, res, next) => {
     })
     console.log(response.data.results)
 
-    if (response.data.results && response.data.results.license_plates == "unknown") {
-      console.log("License plates is unknown")
+    if (response.data.results && response.data.results.detection_case == 3) {
+      console.log("Can't detect")
       response.data.results.license_plates = []
     }
 

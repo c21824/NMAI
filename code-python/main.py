@@ -19,8 +19,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-yolo_LP_detect = torch.hub.load(r"D:/LPR/YOLO/yolov5", 'custom', path=r'D:/LPR/NMAI/model/LP_detector.pt', force_reload=True, source=r'local', verbose=False)
-yolo_license_plate = torch.hub.load(r"D:/LPR/YOLO/yolov5", 'custom', path=r'D:/LPR/NMAI/model/LP_ocr.pt', force_reload=True, source=r'local', verbose=False)
+yolo_LP_detect = torch.hub.load("D:/LPR/YOLO/yolov5", 'custom', path='D:/LPR/NMAI/model/LP_detector.pt', force_reload=True, source='local')
+yolo_license_plate = torch.hub.load("D:/LPR/YOLO/yolov5", 'custom', path='D:/LPR/NMAI/model/LP_ocr.pt', force_reload=True, source='local')
 yolo_license_plate.conf = 0.60
 
 @app.post("/detect")
@@ -34,13 +34,18 @@ async def detect(file: UploadFile = File(...)):
     list_plates = plates.pandas().xyxy[0].values.tolist()
     list_read_plates = set()
 
+    detection_case = None
+
     if len(list_plates) == 0:
         lp = helper.read_plate(yolo_license_plate, img)
         if lp != "unknown":
             list_read_plates.add(lp)
+            detection_case = 1
+        else:
+            detection_case = 3
     else:
+        flag = 0
         for plate in list_plates:
-            flag = 0
             x = int(plate[0])
             y = int(plate[1])
             w = int(plate[2] - plate[0])
@@ -55,7 +60,10 @@ async def detect(file: UploadFile = File(...)):
                         break
                 if flag == 1:
                     break
-
+        if flag == 1:
+            detection_case = 1
+        else:
+            detection_case = 2
     license_plates = list(list_read_plates) if list_read_plates else ["unknown"]
 
     plates.render()  
@@ -65,7 +73,8 @@ async def detect(file: UploadFile = File(...)):
     return {
         "results": {
             "filename": file.filename,
-            "license_plates": license_plates
+            "license_plates": license_plates,
+            "detection_case": detection_case
         },
         "image_with_boxes": img_bytes.getvalue().hex()  
     }

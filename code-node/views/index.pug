@@ -53,18 +53,25 @@ html(lang="vi")
                   .result-image-container
                     img.img-fluid.rounded(src=`data:image/jpeg;base64,${imageBase64}` alt="Hình ảnh đã nhận diện")
                   
-                  if detections && detections.license_plates && detections.license_plates !== "unknown" && detections.license_plates.length > 0
-                    .alert.alert-success
-                      h5.mb-2
-                        i.bi.bi-card-list.me-2
-                        | Biển số xe đã phát hiện:
-                      
-                      each lp in detections.license_plates
-                        .license-plate-item #{lp}
-                  else
-                    .alert.alert-danger
-                      i.bi.bi-x-circle-fill.me-2
-                      | Không phát hiện biển số xe nào trong hình ảnh
+                  if detections && detections.detection_case
+                    if detections.detection_case == 1
+                      .alert.alert-success
+                        h5.mb-2
+                          i.bi.bi-card-list.me-2
+                          | Biển số được phát hiện:
+                        
+                        each lp in detections.license_plates
+                          .license-plate-item #{lp}
+
+                    else if detections.detection_case == 2
+                       .alert.alert-warning
+                          i.bi.bi-exclamation-triangle-fill.me-2
+                          | Không thể trích xuất thông tin biển số
+
+                    else if detections.detection_case == 3
+                      .alert.alert-danger
+                          i.bi.bi-x-circle-fill.me-2
+                          | Không phát hiện biển số nào trong hình ảnh
                 else
                   .result-placeholder
                     i.bi.bi-file-earmark-text
